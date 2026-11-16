@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat Reader</title>
+  <!-- TeamsJS v2. Docs say check https://www.npmjs.com/package/@microsoft/teams-js for the latest version and update the number below if you like. -->
+  <script src="https://res.cdn.office.net/teams-js/2.31.0/js/MicrosoftTeams.min.js"></script>
+</head>
+<body>
+  <p>Chat Reader is enabled for this chat.</p>
+
+  <script>
+    // The tab's content page is this same file.
+    var pageUrl = window.location.origin + window.location.pathname;
+
+    microsoftTeams.app.initialize().then(function () {
+      // Called when the user clicks Save in the Teams configuration dialog.
+      microsoftTeams.pages.config.registerOnSaveHandler(function (saveEvent) {
+        microsoftTeams.pages.config.setConfig({
+          entityId: "chatreader",
+          contentUrl: pageUrl,
+          websiteUrl: pageUrl,
+          suggestedDisplayName: "Chat Reader"
+        }).then(function () {
+          saveEvent.notifySuccess();
+        }).catch(function () {
+          saveEvent.notifyFailure("Could not save configuration.");
+        });
+      });
+
+      // Enables the Save button.
+      microsoftTeams.pages.config.setValidityState(true);
+    });
+  </script>
+</body>
+</html>
